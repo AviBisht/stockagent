@@ -41,20 +41,6 @@ retry_config = types.HttpRetryOptions(
     http_status_codes=[429, 500, 503, 504],  # Retry on these HTTP errors
 )
 
-mrg_app = App(
-    name="MRG_System",
-    root_agent=root_agent, 
-    resumability_config=ResumabilityConfig(is_resumable=True),
-)
-
-
-runner = Runner(
-    agent=root_agent, 
-    app_name=APP_NAME, 
-    session_service=session_service
-)
-
-print("✅ Runner instance defined.")
 
 db_url = "sqlite:///my_agent_data.db"  # Local SQLite file
 session_service = DatabaseSessionService(db_url=db_url)
@@ -532,6 +518,20 @@ root_agent = SequentialAgent(
         trading_system 
     ]
 )
+mrg_app = App(
+    name="MRG_System",
+    root_agent=root_agent, 
+    resumability_config=ResumabilityConfig(is_resumable=True),
+)
+
+
+runner = Runner(
+    agent=root_agent, 
+    app_name=APP_NAME, 
+    session_service=session_service
+)
+
+print("✅ Runner instance defined.")
 
 
 print("✅ MRG control tools created")
