@@ -1,0 +1,6 @@
+/* Clean App root styles handled in index.css */
+#root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

@@ -29,12 +29,12 @@ class TradingStateManager:
     def pause_trading(self, reason: str):
         self.trading_active = False
         self.pause_reason = reason
-        print(f"🛑 Trading PAUSED: {reason}")
+        print(f"[PAUSED] Trading PAUSED: {reason}")
         
     def resume_trading(self):
         self.trading_active = True
         self.pause_reason = None
-        print(f"🟢 Trading RESUMED")
+        print(f"[ACTIVE] Trading RESUMED")
         
     def is_trading_allowed(self) -> bool:
         return self.trading_active

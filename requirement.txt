@@ -6,3 +6,8 @@ pandas
 tabulate
 tqdm
 scikit-learn
+fastapi
+uvicorn
+python-dotenv
+aiosqlite
+greenlet

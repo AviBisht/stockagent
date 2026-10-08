@@ -13,7 +13,7 @@ def log_confidence_score(metric_name: str, value: float, timestamp: str) -> str:
     log_entry = {"value": value, "timestamp": timestamp}
     INTERNAL_AUDIT_LOG[metric_name].append(log_entry)
     
-    print(f"✅ [INTERNAL LOG] {metric_name} recorded: {value}")
+    print(f"[INTERNAL LOG] {metric_name} recorded: {value}")
     return f"Metric '{metric_name}' logged internally."
 
 InternalMetricLogger = FunctionTool(func=log_confidence_score)

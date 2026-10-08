@@ -1,21 +1,24 @@
 import os
 import asyncio
-from kaggle_secrets import UserSecretsClient
 from google.genai import types
 from google.adk.runners import Runner
 from google.adk.sessions import DatabaseSessionService
 from state import APP_NAME, USER_ID, SESSION
 
 try:
+    from kaggle_secrets import UserSecretsClient
     GOOGLE_API_KEY = UserSecretsClient().get_secret("GOOGLE_API_KEY")
     os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
-    print("✅ Gemini API key setup complete.")
-except Exception as e:
-    print(
-        f"🔑 Authentication Error "
-    )
+    print("[OK] Gemini API key setup complete (Kaggle).")
+except Exception:
+    from dotenv import load_dotenv
+    load_dotenv()
+    if os.getenv("GOOGLE_API_KEY"):
+        print("[OK] Gemini API key loaded from environment.")
+    else:
+        print("[INFO] GOOGLE_API_KEY not found in environment.")
 
-db_url = "sqlite:///my_agent_data.db"  # Local SQLite file
+db_url = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///my_agent_data.db")
 session_service = DatabaseSessionService(db_url=db_url)
 
 from root_system_agent import root_agent
@@ -59,16 +62,18 @@ runner = Runner(
     session_service=session_service
 )
 
-print("✅ Runner instance defined.")
-print("✅ MRG control tools created")
+print("[OK] Runner instance defined.")
+print("[OK] MRG control tools created")
 print("completed trading layer")
 
-trade_query = "The optimal trade is to BUY 100 shares of MSFT at the current market price."
+if __name__ == "__main__":
+    trade_query = "The optimal trade is to BUY 100 shares of MSFT at the current market price."
 
-asyncio.run(run_session(
-    runner_instance=runner, 
-    user_queries=trade_query, 
-    session_id="SESSION_A"
-))
+    asyncio.run(run_session(
+        runner_instance=runner, 
+        user_queries=trade_query, 
+        session_id="SESSION_A"
+    ))
 
-print("✅ ADK components imported successfully.")
+    print("✅ ADK components imported successfully.")
+
